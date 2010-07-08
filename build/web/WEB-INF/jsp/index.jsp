@@ -35,9 +35,12 @@
                                 <!--Top-->
                                 <table style="height: 100px; width: 640px;" border="0">
                                     <tr>
-                                        <td rowspan="3" style="width: 155px;"><a href="http://cardpay.com"><img src="img/eye-logo-small.png" alt="TheEYE"/></a></td>
+                                        <td rowspan="3" style="width: 155px;"><a href="#"><img src="img/eye-logo-small.png" alt="TheEYE"/></a></td>
                                         <td rowspan="3" style="width: 25px;">&nbsp;</td>
-                                        <td style="height: 35px;">&nbsp;</td><td>&nbsp;</td>
+                                        <td style="height: 35px;">
+                                            <input id="oneInAnother" name="oneInAnother" type="checkbox"/><label for="oneInAnother">&nbsp;As a part of another picture</label>
+                                        </td>
+                                        <td>&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: middle;">

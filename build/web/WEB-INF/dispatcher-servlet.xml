@@ -21,7 +21,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     </bean>
 
     <!-- CONTROLLERS -->
-    <bean id="searchController" class="com.theeye.controller.SearchController"/>
+    <bean id="searchController" class="eye.controller.SearchController"/>
 
 
 

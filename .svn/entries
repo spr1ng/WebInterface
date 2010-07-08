@@ -1,17 +1,17 @@
 10
 
 dir
-13
+55
 svn://localhost/spr1ngsvn/TheEye/Pupil
 svn://localhost/spr1ngsvn/TheEye
 
 
 
-2010-06-28T07:36:11.680546Z
-13
+2010-07-07T06:10:32.655898Z
+53
 spr1ng
 has-props
-has-prop-mods
+
 
 
 
@@ -26,9 +26,6 @@ has-prop-mods
 
 8763ed6d-9318-4032-b958-c511fcb819a9
 
-dist
-dir
-
 lib
 dir
 
@@ -40,6 +37,40 @@ dir
 
 web
 dir
+
+README
+file
+
+
+
+
+2010-07-02T05:10:38.862566Z
+d41d8cd98f00b204e9800998ecf8427e
+2010-07-07T04:00:23.711572Z
+49
+spr1ng
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0
 
 build.xml
 file
