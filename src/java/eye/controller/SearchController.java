@@ -6,6 +6,8 @@ package eye.controller;
 
 import java.io.InputStream;
 import java.util.List;
+import java.awt.Color;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -15,10 +17,11 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import eye.server.manager.impl.DBManagerBasicImpl;
+import eye.server.manager.DBManagerBasicImpl;
 import eye.core.model.ext.ImageFactory;
 import eye.core.matcher.Matcher;
 import eye.core.matcher.impl.MatcherEdgeSeekerImpl;
+import eye.core.model.Edge;
 import eye.core.model.Image;
 import eye.core.model.Point;
 import eye.core.model.result.SearchResult;
@@ -26,7 +29,7 @@ import eye.core.model.result.SearchResult;
 /**
  *
  * @author spr1ng
- * @version $Id$
+ * @version $Id: SearchController.java 121 2010-07-21 04:01:40Z spr1ng $
  */
 public class SearchController extends AbstractController {
 
@@ -75,19 +78,24 @@ public class SearchController extends AbstractController {
 
         ImageFactory factory = new ImageFactory();
         List<Point> points = factory.seekPoints(in);
-        LOG.info("-----> Points total: " + points.size());
+        List<Edge> edges = factory.seekEdges(points);
+
+        factory.drawAndSaveRealImage(points, "out1" + fileName, Color.BLUE);
+        factory.drawAndSaveMetaImage(edges, "out2" + fileName);
+        
+        HashMap<Double, Integer> edgeMap = factory.seekEdgeMap(edges);
+        HashMap<Double, Integer> angleMap = factory.seekAngleMap(edges);
         
         boolean oneInAnother = false;
         if (getParameter(fileItems, "oneInAnother") != null) oneInAnother = true;
 
-        Image userImage = new Image(null, points);
+        Image userImage = new Image(null, edgeMap, angleMap);
         DBManagerBasicImpl dbm = new DBManagerBasicImpl();
         Matcher matcher = new MatcherEdgeSeekerImpl();
-        List<Image> dbImages = dbm.getAllImages();
+        List<Image> dbImages = dbm.getValidImages();
+        System.out.println("Total images: " + dbImages.size());
         SearchResult result = matcher.getSearchResult(userImage, dbImages, oneInAnother);
 
-        /*factory.draw(points, Color.BLACK);
-        factory.saveToOutputStream(ImageFactory.getExtension(fileName), out);*/
         in.close();
 //        out.close();
         SUC_MV.addObject("imageItem", fileItem);

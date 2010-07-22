@@ -5,9 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Set" %>
-<%@page import="org.apache.tomcat.util.http.fileupload.FileItem" %>
 <%@page import="java.io.File" %>
+<%@page import="java.util.List" %>
+<%@page import="org.apache.tomcat.util.http.fileupload.FileItem" %>
 
 <%@page import="eye.core.model.result.*" %>
 <%@page import="eye.core.model.Image" %>
@@ -25,6 +25,7 @@
 
 <%
     SearchResult searchResult = (SearchResult) request.getAttribute("result");
+    searchResult.sortResults();
     int totalImages = searchResult.totalImages();
 %>
         <h3>Total images similar: <%= totalImages %></h3>
@@ -36,7 +37,7 @@
                 <td align="center"><h3>Extra info:</h3></td>
             </tr>
 <%
-    Set<SimilarityResult> results = searchResult.getResults();
+    List<SimilarityResult> results = searchResult.getResults();
     //FileItem imageItem = (FileItem)request.getAttribute("imageItem");
     //String src = config.getServletContext().getRealPath(imageItem.getName());
     //java.awt.image.BufferedImage buffim = ImageIO.read(imageItem.getInputStream());
@@ -50,11 +51,10 @@
 <%
     int idx = 1;
     for (SimilarityResult result : results) {
-        String url = result.getImage2().getUrl();
-        int averageEdges = result.getAverageEdgesQty();
-        int maxEdges = result.getMaxEdgesQty();
-        int edgesTotal = result.getEdgeQtyTotal();
-        int similarity = result.getSimilarity();
+        String url = result.getImage2() != null ? result.getImage2().getUrl() : "unknown";
+        double similarity1 = result.getSimilarity1();
+        double similarity2 = result.getSimilarity2();
+        double similarity = result.getSimilarity();
 %>
             <tr>
                 <td align="center"><%= idx %></td>
@@ -62,10 +62,9 @@
                 <td><h3>&nbsp;&nbsp;&nbsp;<a href="<%= url %>" target="_blank"><%= url %></a></h3></td>
                 <td align="left">
                     <table border="0">
-                        <tr><td align="right">Edges (average):</td><td align="left"><%= averageEdges %></td></tr>
-                        <tr><td align="right">Edges (max):</td><td align="left"><%= maxEdges %></td></tr>
-                        <tr><td align="right">Edges (total):</td><td align="left"><%= edgesTotal %></td></tr>
-                        <tr><td align="right"><font color="green">Similarity</font>:</td><td align="left"><%= similarity %>%</td></tr>
+                        <tr><td align="right">Similarity edges:</td><td align="left"><%= similarity1 %>%</td></tr>
+                        <tr><td align="right">Similarity angles:</td><td align="left"><%= similarity2 %>%</td></tr>
+                        <tr><td align="right"><font color="green">Similarity:</font></td><td align="left"><%= similarity %>%</td></tr>
                     </table>
                 </td>
             </tr>
